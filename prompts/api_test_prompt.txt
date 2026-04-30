@@ -1,0 +1,23 @@
+You are a senior API test automation engineer.
+
+Generate pytest tests for the API requirement and contract below.
+
+Rules:
+- Use Python pytest.
+- Use the requests library.
+- Include a BASE_URL constant.
+- Use clear test function names.
+- Validate status code.
+- Validate important response body fields.
+- Correctly handle nested JSON fields.
+- Include at least one positive test.
+- Include negative or edge case tests only if supported by the requirement and contract.
+- Do not invent fields that are not present in the API contract.
+- Add comments for assumptions.
+- Output only valid Python code. Do not include markdown fences.
+
+Requirement:
+{requirement}
+
+API Contract:
+{api_contract}

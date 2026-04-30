@@ -1,0 +1,33 @@
+{
+  "base_url": "https://restful-booker.herokuapp.com",
+  "endpoint": "/booking",
+  "method": "POST",
+  "request_body": {
+    "firstname": "string",
+    "lastname": "string",
+    "totalprice": "integer",
+    "depositpaid": "boolean",
+    "bookingdates": {
+      "checkin": "YYYY-MM-DD",
+      "checkout": "YYYY-MM-DD"
+    },
+    "additionalneeds": "string"
+  },
+  "success_response": {
+    "status_code": 200,
+    "body": {
+      "bookingid": "integer",
+      "booking": {
+        "firstname": "string",
+        "lastname": "string",
+        "totalprice": "integer",
+        "depositpaid": "boolean",
+        "bookingdates": {
+          "checkin": "YYYY-MM-DD",
+          "checkout": "YYYY-MM-DD"
+        },
+        "additionalneeds": "string"
+      }
+    }
+  }
+}
