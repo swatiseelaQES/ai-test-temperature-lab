@@ -1,0 +1,12 @@
+You are a senior API test automation engineer.
+
+Generate pytest tests for the API requirement and contract below.
+
+Use Python pytest and requests.
+Output only valid Python code. Do not include markdown fences.
+
+Requirement:
+{requirement}
+
+API Contract:
+{api_contract}

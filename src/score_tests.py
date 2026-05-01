@@ -17,6 +17,7 @@ def count_test_functions(code: str) -> int:
         tree = ast.parse(code)
     except SyntaxError:
         return 0
+
     return sum(
         1
         for node in ast.walk(tree)
@@ -29,11 +30,36 @@ def count_assertions(code: str) -> int:
         tree = ast.parse(code)
     except SyntaxError:
         return 0
+
     return sum(1 for node in ast.walk(tree) if isinstance(node, ast.Assert))
+
+
+def extract_test_scenarios(code: str) -> list[str]:
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return []
+
+    scenarios = []
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef) and node.name.startswith("test_"):
+            docstring = ast.get_docstring(node)
+
+            if docstring:
+                scenario = docstring.strip().splitlines()[0]
+            else:
+                scenario = node.name.replace("test_", "").replace("_", " ").strip()
+                scenario = scenario.capitalize()
+
+            scenarios.append(scenario)
+
+    return scenarios
 
 
 def keyword_coverage(code: str) -> dict[str, bool]:
     lowered = code.lower()
+
     return {
         "valid_booking": "booking" in lowered and "post" in lowered,
         "status_code": "status_code" in lowered,
@@ -47,6 +73,7 @@ def keyword_coverage(code: str) -> dict[str, bool]:
 def score_file(path: Path) -> dict[str, Any]:
     code = path.read_text(encoding="utf-8")
     coverage = keyword_coverage(code)
+
     return {
         "file": str(path),
         "syntax_valid": is_syntax_valid(code),
@@ -55,4 +82,5 @@ def score_file(path: Path) -> dict[str, Any]:
         "line_count": len(code.splitlines()),
         "coverage_keywords": coverage,
         "coverage_keyword_count": sum(coverage.values()),
+        "scenarios": extract_test_scenarios(code),
     }
